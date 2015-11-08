@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing User Actions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tracking</th>
+      <th>Name</th>
+      <th>Value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_actions.each do |user_action| %>
+      <tr>
+        <td><%= user_action.tracking_id %></td>
+        <td><%= user_action.name %></td>
+        <td><%= user_action.value %></td>
+        <td><%= link_to 'Show', user_action %></td>
+        <td><%= link_to 'Edit', edit_user_action_path(user_action) %></td>
+        <td><%= link_to 'Destroy', user_action, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User action', new_user_action_path %>
