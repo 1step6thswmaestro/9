@@ -33,9 +33,11 @@ tracker = new function() {
                 },
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    'id' : tracker.getCookie('trackerId'),
-                    'action' : action,
-                    'label' : label
+                    "user_action": {
+                        'tracking_id' : tracker.getCookie('trackerId'),
+                        'name' : action,
+                        'value' : label
+                    }
                 })
             })
             .done(function(data, textStatus, jqXHR) {
