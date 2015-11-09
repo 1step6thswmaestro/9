@@ -1,5 +1,5 @@
 tracker = new function() {
-    this.serverUrl = 'http://localhost/';
+    this.serverUrl = 'http://localhost:3000/user_actions';
     this.setCookie = function setCookie(name, value) {
         var expire = new Date();
         expire.setDate(expire.getDate() + 1);
@@ -44,5 +44,6 @@ tracker = new function() {
             .fail(function(jqXHR, textStatus, errorThrown) {
                 console.log('HTTP Request Failed');
             });
+        alert("send!");
     };
 };
