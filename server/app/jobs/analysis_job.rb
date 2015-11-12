@@ -3,5 +3,6 @@ class AnalysisJob < ActiveJob::Base
 
   def perform(*args)
     # Do something later
+    AnalysisJob.set(wait: 1.day).perform_later
   end
 end
