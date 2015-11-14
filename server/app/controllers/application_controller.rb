@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_filter :set_headers
   protect_from_forgery with: :null_session
-
+  skip_before_filter  :verify_authenticity_token
 
   private
   def set_headers

@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151108085538) do
+ActiveRecord::Schema.define(version: 20151111140111) do
+
+  create_table "reactions", force: :cascade do |t|
+    t.string   "description", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "user_actions", force: :cascade do |t|
     t.string   "tracking_id", limit: 255
