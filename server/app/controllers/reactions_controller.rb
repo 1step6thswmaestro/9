@@ -51,6 +51,11 @@ class ReactionsController < ApplicationController
     render json: { result: 'success' }
   end
 
+  def recommand
+    AnalysisJob.perform_later
+    render json: { result: 'success' }
+  end
+
   private
     def set_reaction
       @reaction = Reaction.find(params[:id])

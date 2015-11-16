@@ -26,6 +26,7 @@ class AnalysisJob < ActiveJob::Base
       end
       # 가장 닮은 친구의 상품 중 겹치지 않는걸 추천해주자
       if best_match
+        Recommand.destroy_all(user_id: me.user_id)
         recommands = purchase_table[best_match] - purchase_table[me]
         for recommand in recommands
           r = Recommand.new(user_id: me.user_id, product_id: recommand)
