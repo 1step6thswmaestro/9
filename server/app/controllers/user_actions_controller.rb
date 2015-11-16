@@ -3,11 +3,10 @@ class UserActionsController < ApplicationController
     @user_action = UserAction.new(user_action_params)
 
     if @user_action.save
-      render json: { result: 'success', notice: 'User action was successfully created.' }
+      render json: { result: 'success' }
     else
       render json: @user_action.errors, status: :unprocessable_entity
     end
-    AnalysisJob.perform_later
   end
 
   private

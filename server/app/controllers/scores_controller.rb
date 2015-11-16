@@ -3,7 +3,9 @@ class ScoresController < ApplicationController
 
   def create
     if @score
-      if @score.update(score: @score[:score] + 1)
+      score = @score[:score] > 1 ? @score[:score] : 1
+      score += score_params[:successful] ? 1 : -1
+      if @score.update(score: score)
         render json: { result: 'success' }
       else
         render json: @score.errors
@@ -29,6 +31,6 @@ class ScoresController < ApplicationController
     end
 
     def score_params
-      params.require(:score).permit(:action_name, :reaction_id)
+      params.require(:score).permit(:action_name, :reaction_id, :successful)
     end
 end
