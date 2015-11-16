@@ -1,73 +1,61 @@
 class ReactionsController < ApplicationController
-  before_action :set_reaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_reaction, only: :destroy
 
-  # GET /reactions
-  # GET /reactions.json
   def index
-    @reactions = Reaction.all
+    # 액션 갯수 구하기
+    action_count = {}
+    actions = UserAction.where(tracking_id: params[:tracking_id])
+    # 너무 적으면 생성하지 않음
+    if actions.size < 5
+      render json: { reaction: 'none' }
+      return
+    end
+    for action in actions
+      if action_count.has_key? action.name
+        action_count[action.name] += 1
+      else
+        action_count[action.name] = 1
+      end
+    end
+    # 갯수로 sort
+    action_count = action_count.sort_by { |action, count| count }
+    # 가장 빈도수 높은 액션
+    action_name = action_count.reverse[0][0]
+    # 리액션 가중치 두고 구하기
+    reactions = Score.where(action_name: action_name)
+    total_score = 0
+    reactions.each do |r| total_score += r.score end
+    value = rand(total_score * 2)
+    score = 0
+    for reaction in reactions
+      score += reaction.score
+      if value < score
+        render json: { reaction: reaction.reaction_id }
+        return
+      end
+    end
+    render json: { reaction: 'none' }
   end
 
-  # GET /reactions/1
-  # GET /reactions/1.json
-  def show
-  end
-
-  # GET /reactions/new
-  def new
-    @reaction = Reaction.new
-  end
-
-  # GET /reactions/1/edit
-  def edit
-  end
-
-  # POST /reactions
-  # POST /reactions.json
   def create
     @reaction = Reaction.new(reaction_params)
-
-    respond_to do |format|
-      if @reaction.save
-        format.html { redirect_to @reaction, notice: 'Reaction was successfully created.' }
-        format.json { render :show, status: :created, location: @reaction }
-      else
-        format.html { render :new }
-        format.json { render json: @reaction.errors, status: :unprocessable_entity }
-      end
+    if @reaction.save
+      render json: { result: 'success' }
+    else
+      render json: @reaction.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /reactions/1
-  # PATCH/PUT /reactions/1.json
-  def update
-    respond_to do |format|
-      if @reaction.update(reaction_params)
-        format.html { redirect_to @reaction, notice: 'Reaction was successfully updated.' }
-        format.json { render :show, status: :ok, location: @reaction }
-      else
-        format.html { render :edit }
-        format.json { render json: @reaction.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /reactions/1
-  # DELETE /reactions/1.json
   def destroy
     @reaction.destroy
-    respond_to do |format|
-      format.html { redirect_to reactions_url, notice: 'Reaction was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    render json: { result: 'success' }
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_reaction
       @reaction = Reaction.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def reaction_params
       params.require(:reaction).permit(:description)
     end
