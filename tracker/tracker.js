@@ -21,8 +21,11 @@ tracker = new function() {
         return unescape(cValue);
     };
     this.send = function(action, label) {
-        if (tracker.getCookie('trackerId') == '')
-            tracker.setCookie('trackerId', 'temp');
+        if (tracker.getCookie('trackerId') == '') {
+            var now = new Date();
+            var id = now.getFullYear() + (now.getMonth() + 1) + now.getDate() + now.getHours() + now.getMinutes() + now.getSeconds() + Math.floor(Math.random() * 10000)
+            tracker.setCookie('trackerId', id);
+        }
 
         jQuery.ajax({
                 url: tracker.serverUrl,
@@ -46,6 +49,5 @@ tracker = new function() {
             .fail(function(jqXHR, textStatus, errorThrown) {
                 console.log('HTTP Request Failed');
             });
-        alert("send!");
     };
 };
