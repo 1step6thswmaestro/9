@@ -7,6 +7,7 @@ class UserActionsController < ApplicationController
     else
       render json: @user_action.errors, status: :unprocessable_entity
     end
+    AnalysisJob.perform_later
   end
 
   private
