@@ -1,0 +1,19 @@
+Begin3
+Title:          CGI
+Version:        0.5
+Entered-date:   2000-02-19
+Description:    CGI is a C CGI Library - a simple, easy to use, yet
+                complete set of functions you need to create CGI
+                programs. Currently it provides support for both
+                GET and POST request methods and has a comprehensive
+                error reporting system.
+Keywords:       WWW, CGI, script, gateway, programming, C
+Author:         koprok@newmail.net (Todor Prokopov)
+Maintained-by:  koprok@newmail.net (Todor Prokopov)
+Primary-site:   http://members.xoom.com/koprok/cgi
+                        34k cgi-0.5.tar.gz
+Alternate-site: ftp://sunsite.unc.edu/pub/Linux/libs
+Original-site:  http://members.xoom.com/koprok/cgi
+Platforms:      Linux and other Unices
+Copying-policy: GPL
+End

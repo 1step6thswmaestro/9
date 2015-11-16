@@ -1,0 +1,55 @@
+dnl
+dnl configure.in
+dnl
+dnl CGI -- C CGI Library -- config script source
+dnl
+dnl Copyright (c) 2000 Todor Prokopov
+dnl Copyright (c) 2000 Edward V. POPKOV
+dnl Distributed under GPL, see COPYING for details
+dnl
+dnl Todor Prokopov     <koprok@newmail.net>
+dnl "Edward V. POPKOV" <evpopkov@carry.neonet.lv>
+dnl
+dnl $Id$
+dnl
+dnl $Log$
+
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(cgi.c)
+AC_CONFIG_HEADER(config.h test/config.h)
+
+dnl Checks for programs.
+AC_PROG_INSTALL
+AC_PROG_CC
+AC_PROG_GCC_TRADITIONAL
+
+dnl Checks for libraries.
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(stdio.h stdlib.h errno.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+dnl Checks for library functions.
+
+dnl Features
+AC_ARG_ENABLE(opt-compile,
+              --enable-opt-comiple      enable extra compiler optimisations (GNU C),
+              if test "$enableval" = yes; then
+               CFLAGS="-Wall -pedantic -O6 -fomit-frame-pointer -pipe"
+               export CFLAGS
+              fi)
+
+AC_ARG_ENABLE(strip-link,
+              --enable-strip-link       enable stripping when linking a shared library (GNU C),
+              if test "$enableval" = yes; then
+               LDFLAGS="-Xlinker -s"
+               export LDFLAGS
+              fi)
+
+dnl Produce output files
+AC_OUTPUT(Makefile test/Makefile)
+
+dnl End of configure.in

@@ -1,0 +1,39 @@
+/* 공통사항 */
+*{margin:0; padding:0;}
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body{font-style:normal; font-weight:normal; font-variant:normal; width:100%;}
+table, th, td, caption, div, input, select, textarea{color:#666666; font-size:13px; line-height:18px; font-family:"맑은고딕","Nanum Gothic","나눔고딕";}
+
+
+/* 상품 상세 정보내 상품 정보 고시 관련 내용 테이블 */
+.productInfoGosi{font-size:11px; line-height:200%; width:100%; margin-top:15px;}
+.productInfoGosi caption{ background:#f5f5f5; color:#666666; font-weight:bold; padding:10px; border-top:1px solid #222; border-bottom:1px solid #ddd; visibility:visible;}
+.productInfoGosi th{ background:#f5f5f5; padding:10px 15px;; color:#666; text-align:left; font-weight:bold; border-bottom:1px solid #ddd; width:170px;}
+.productInfoGosi td{ border-bottom:1px solid #ddd; padding:10px 15px;}
+
+.checkPoint{border:1px solid #F00; background:#FED1C5; color:#000000; font-size:11px;}
+
+
+/*입점문의*/
+#proposalForm{margin:0px; padding:0px; border:0px;}
+.proposal_wrap{margin:0px; margin-top:10px;text-align:left;}
+.proposal_wrap .proposal_header{position:relative;}
+.proposal_wrap .proposal_header p{position:relative;margin:0px;padding:0px;}
+.proposal_wrap table{margin:0px; padding:0px;}
+
+
+/* 카테고리 뷰 */
+.categoryList {clear:both; position:relative; float:left; z-index:100;}
+.categoryListTd {padding:0px 10px;}
+.categoryListTd A:link {padding:4px; COLOR: #666666; TEXT-DECORATION: none;}
+.categoryListTd A:visited {padding:4px; COLOR: #666666; TEXT-DECORATION: none;}
+.categoryListTd A:hover {padding:4px; COLOR: #666666; background-color:#f5f5f5; TEXT-DECORATION: none;}
+.categoryListTd A:active {padding:4px; COLOR: #666666; TEXT-DECORATION: none;}
+
+.categoryAll {display:none; position:absolute; width:160px; left:120px; top:-29px; padding:10px; background:#ffffff; border:1px solid #dddddd; z-index:200;}
+.categoryAll A:link {padding:2px 5px; COLOR: #666666; TEXT-DECORATION: none;}
+.categoryAll A:visited {padding:2px 5px; COLOR: #666666; TEXT-DECORATION: none;}
+.categoryAll A:active {padding:2px 5px; COLOR: #666666; TEXT-DECORATION: none;}
+.categoryAll A:hover {padding:2px 5px; COLOR: #666666; background-color:#f5f5f5; TEXT-DECORATION: none;}

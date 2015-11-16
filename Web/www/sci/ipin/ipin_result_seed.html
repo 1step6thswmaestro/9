@@ -1,0 +1,145 @@
+<?
+	/************************************************************************************/
+	/* - sample 페이지에서 요청 시 쿠키에 저장한 Reqnum값을 가져와서 IV값에 셋팅   	    */
+	/* - 쿠키 만료시간 경과 후 결과처리 못함										    */
+ 	/************************************************************************************/
+	//01. 쿠키값 확인
+	if (isset($_COOKIE["REQNUM"])) {
+		$iv = $_COOKIE["REQNUM"]; 
+		//쿠키 삭제
+		setcookie("REQNUM", "", time()-600);
+	} else {
+?>
+		<script language=javascript>
+			alert("세션이 만료되었습니다.!!");
+			return;
+		</script>
+<?
+	}
+
+	// 파라메터로 받은 요청결과
+	$enc_retInfo = $_GET["retInfo"];
+
+	//02. 요청결과 복호화
+  	$dec_retInfo = exec("./SciSecuX SEED 2 0 $iv $enc_retInfo ");
+?>
+
+    [본인확인 결과 수신 Sample] <br> <br>
+
+	[복호화 하기전 수신값] <br>
+	<br>
+	retInfo : <? echo $enc_retInfo ?> <br>
+	<br>
+
+	[복호화 후 수신값] <br>
+	<br>
+	retInfo : <? echo $dec_retInfo ?> <br>
+	<br>
+
+<?
+	//데이터 조합 : "본인확인1차암호화값/위변조검증값/암복화확장변수"
+	$totInfo = split("/", $dec_retInfo);
+
+	$encPara  = $totInfo[0];		//암호화된 통합 파라미터
+	$encMsg   = $totInfo[1];		//암호화된 통합 파라미터의 Hash값
+
+	//03. 위변조검증값 생성
+	$hmac_str = exec("./SciSecuX HMAC 1 0 $encPara ");
+
+	if($hmac_str != $encMsg){
+?>
+		<script language=javascript>
+			alert("비정상적인 접근입니다.!!");
+		</script>
+<?
+		exit;
+	}
+
+	//04. 본인확인1차암호화값 복호화
+	$decPara  = exec("./SciSecuX SEED 2 0 $iv $encPara ");
+
+	//05. 파라미터 분리
+	$split_dec_retInfo = split("/", $decPara);
+
+	$reqNum    = $split_dec_retInfo[0];   //요청번호
+	$vDiscrNo  = $split_dec_retInfo[1];   //아이핀번호
+	$name      = $split_dec_retInfo[2];   //성명
+	$result    = $split_dec_retInfo[3];   //인증결과
+	$age	   = $split_dec_retInfo[4];   //연령대
+	$sex       = $split_dec_retInfo[5];   //성별
+	$ip        = $split_dec_retInfo[6];   //Client IP
+	$authInfo  = $split_dec_retInfo[7];   //발급수단정보
+	$birth     = $split_dec_retInfo[8];   //생년월일
+	$fgn       = $split_dec_retInfo[9];   //내/외국인구분
+	$discrHash = $split_dec_retInfo[10];  //중복가입확인정보
+	$ciVersion = $split_dec_retInfo[11];  //연계정보 버젼
+	$ciscrHash = $split_dec_retInfo[12];  //연계정보
+
+
+	$discrHash = exec("./SciSecuX SEED 2 0 $iv $discrHash ");    //중복가입확인정보는 구분자인 "/"가 나올수 있으므로 한번더 복호화
+	$ciscrHash = exec("./SciSecuX SEED 2 0 $iv $ciscrHash ");    //연계정보는 구분자인 "/"가 나올수 있으므로 한번더 복호화
+?>
+            <table cellpadding=1 cellspacing=1>
+                <tr>
+                    <td align=left>요청번호</td>
+                    <td align=left><? echo $reqNum ?></td>
+                </tr>
+                <tr>
+                    <td align=left>아이핀번호</td>
+                    <td align=left><? echo $vDiscrNo ?></td>
+                </tr>
+                <tr>
+                    <td align=left>성명</td>
+                    <td align=left><? echo $name ?></td>
+                </tr>
+                <tr>
+                    <td align=left>인증결과</td>
+                    <td align=left><? echo $result ?></td>
+                </tr>
+                <tr>
+                    <td align=left>연령대</td>
+                    <td align=left><? echo $age ?></td>
+                    </td>
+                </tr>
+                <tr>
+                    <td align=left>성별</td>
+                    <td align=left><? echo $sex ?></td>
+                </tr>
+                <tr>
+                    <td align=left>Client IP</td>
+                    <td align=left><? echo $ip ?></td>
+                </tr>
+                <tr>
+                    <td align=left>발급수단정보</td>
+                    <td align=left><? echo $authInfo ?></td>
+                </tr>
+                <tr>
+                    <td align=left>생년월일</td>
+                    <td align=left><? echo $birth ?></td>
+                </tr>
+                <tr>
+                    <td align=left>내/외국인구분</td>
+                    <td align=left><? echo $fgn ?></td>
+                </tr>
+                <tr>
+                    <td align=left>중복가입확인정보</td>
+                    <td align=left><? echo $discrHash ?></td>
+                </tr>
+                <tr>
+                    <td align=left>연계정보 버젼</td>
+                    <td align=left><? echo $ciVersion ?></td>
+                </tr>
+                <tr>
+                    <td align=left>연계정보</td>
+                    <td align=left><? echo $ciscrHash ?></td>
+                </tr>
+                <tr>
+                    <td align=left>암호화값</td>
+                    <td align=left><? echo $encMsg ?></td>
+                </tr>
+            </table>
+            <br>
+            <a href="http://.../ipin_input_seed.html">[Back]</a>
+</BODY>
+</HTML>
+

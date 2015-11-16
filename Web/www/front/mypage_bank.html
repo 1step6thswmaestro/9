@@ -1,0 +1,122 @@
+<?php
+header('Content-Type: text/html; charset=euc-kr'); 
+$Dir="../";
+include_once($Dir."lib/init.php");
+include_once($Dir."lib/lib.php");
+
+?>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function ckForm() {
+	f = document.bankForm;
+	if(!f.bank_name.value) {
+		alert('입금은행을 선택 하시기 바랍니다');
+		f.bank_name.focus();
+		return false;
+	}
+	if(!f.bank_num.value) {
+		alert('계좌번호를 입력 하시기 바랍니다');
+		f.bank_num.focus();
+		return false;
+	}
+	f.action ="mypage_bank_process.php";
+}
+//-->
+</SCRIPT>
+<form name="bankForm" method="post" style="margin:0;padding:0" onsubmit="return ckForm()" target="ifrmProcess">			
+<input type="hidden" name="type" value="add" />
+<table cellpadding="0" cellspacing="0" width="350" align="center">
+<tr>
+	<td colspan="3">
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td width="17" align="left"><IMG SRC="../images/design/pop_view_head.gif" WIDTH=17 HEIGHT=44 ALT=""></td>
+			<td background="../images/design/pop_view_headbg.gif"><IMG SRC="../images/design/promote3_cash_poptitle.gif" WIDTH="112" HEIGHT=44 ALT=""></td>
+			<td width="47" align="right"><IMG SRC="../images/design/pop_view_exit.gif" WIDTH=47 HEIGHT=44 ALT="" onclick="hidePopDiv()" style="cursor:hand"></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td background="../images/design/pop_view_leftbg.gif" width="17" height="100%" align="center"></td>
+	<td width="100%" height="100%">
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td height="25"></td>
+		</tr>
+		<tr>
+			<td class="table01_con"><b>입금 받을 본인 계좌를 등록하시기 바랍니다.</b></td>
+		</tr>
+		<tr>
+			<td height=10><img src="../images/design/con_line02.gif" width="100%" height="1" border="0"></td>
+		</tr>
+		<tr>
+			<td>
+				<table cellpadding="1" cellspacing="0" width="100%" align="center">
+					<tr>
+						<td width="10" align="center"><img src="../images/design/icon01.gif" width="6" height="9" border="0"></td>
+						<td class="table01_con" width="70">계좌주 성명</td>
+						<td class="table01_con" width="10">:</td>
+						<td class="table01_con"><?=$_ShopInfo->getMemname()?></td>
+					</tr>
+					<tr>
+						<td width="10" align="center"><img src="../images/design/icon01.gif" width="6" height="9" border="0"></td>
+						<td class="table01_con">은행</td>
+						<td class="table01_con">:</td>
+						<td>
+						  <select name="bank_name" size="1" style="font-size:12px;">
+							  <option value="우리은행">우리은행</option>
+							  <option value="경남은행">경남은행</option>
+							  <option value="광주은행">광주은행</option>
+							  <option value="국민(주택)은행">국민(주택)은행</option>
+							  <option value="기업은행">기업은행</option>
+							  <option value="농협">농협</option>
+							  <option value="대구은행">대구은행</option>
+							  <option value="도이치은행">도이치은행</option>
+							  <option value="부산은행">부산은행</option>
+							  <option value="산업은행">산업은행</option>
+							  <option value="상호저축은행">상호저축은행</option>
+							  <option value="새마을금고">새마을금고</option>
+							  <option value="수출입은행">수출입은행</option>
+							  <option value="수협중앙회">수협중앙회</option>
+							  <option value="신용협동조합">신용협동조합</option>
+							  <option value="신한(조흥)은행">신한(조흥)은행</option>
+							  <option value="외환은행">외환은행</option>
+							  <option value="우체국">우체국</option>
+							  <option value="전북은행">전북은행</option>
+							  <option value="제주은행">제주은행</option>
+							  <option value="하나(서울)은행">하나(서울)은행</option>
+							  <option value="한국시티은행(한미)">한국시티은행(한미)</option>
+							  <option value="ABN-AMRO">ABN-AMRO</option>
+							  <option value="HSBC">HSBC은행</option>
+							  <option value="SC제일은행">SC제일은행</option>
+						  </select>
+						</td>
+					</tr>
+					<tr>
+						<td width="10" align="center"><img src="../images/design/icon01.gif" width="6" height="9" border="0"></td>
+						<td class="table01_con">계좌번호</td>
+						<td class="table01_con">:</td>
+						<td><input type="text" name="bank_num" style="font-size:12px;"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td align="left"  height=10><img src="../images/design/con_line02.gif" width="100%" height="1" border="0"></td>
+		</tr>
+		<tr>
+			<td align="center"><input type="image" src="../images/design/promote3_cash_btn03.gif" width="72" height="29" border="0" vspace="6"></td>
+		</tr>
+		</table>
+	</td>
+	<td background="../images/design/pop_view_rightbg.gif" width="17" height="100%"></td>
+</tr>
+<tr>
+	<td height="9" width="10"><img src="../images/design/pop_view_bottomleft.gif" width="17" height="16" border="0"></td>
+	<td background="../images/design/pop_view_bottombg.gif" height="9" width="729"></td>
+	<td height="9" width="11"><img src="../images/design/pop_view_bottomright.gif" width="17" height="16" border="0"></td>
+</tr>
+</table>
+</form>
+<iframe src="" width="0" height="0" name="ifrmProcess" id="ifrmProcess"></iframe>

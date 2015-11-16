@@ -1,0 +1,105 @@
+<?
+header('Content-Type: text/html; charset=euc-kr'); 
+$Dir="../";
+include_once($Dir."lib/init.php");
+include_once($Dir."lib/lib.php");
+$gbn = $_POST["gbn"];
+?>
+<SCRIPT type="text/JavaScript">
+<!--
+	
+function ckDel(bank){
+	f = document.bankForm;
+	if(confirm('정말로 삭제 하시겠습니까?')) {
+		f.action ="mypage_bank_process.php";
+		f.type.value = 'del';
+		f.bank.value = bank;
+		f.submit();
+	}
+}
+
+function ckSec(bank){
+	cashForm.bank.value = bank;
+	if(cashForm.bank.value){
+		hidePopDiv();
+	}
+}
+
+//-->
+</SCRIPT>
+<form name="bankForm" method="post" style="margin:0;padding:0" target="ifrmProcess">			
+<input type="hidden" name="type" value="" />
+<input type="hidden" name="bank" value="" />
+<table cellpadding="0" cellspacing="0" width="350" align="center">
+<tr>
+	<td colspan="3">
+		<table cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td width="17" align="left"><IMG SRC="../images/design/pop_view_head.gif" WIDTH=17 HEIGHT=44 ALT=""></td>
+			<td background="../images/design/pop_view_headbg.gif"><IMG SRC="../images/design/promote3_cash_poptitle1.gif" WIDTH="112" HEIGHT=44 ALT=""></td>
+			<td width="47" align="right"><IMG SRC="../images/design/pop_view_exit.gif" WIDTH=47 HEIGHT=44 ALT="" onclick="hidePopDiv()" style="cursor:pointer"></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td background="../images/design/pop_view_leftbg.gif" width="17" height="100%" align="center"></td>
+	<td width="100%" height="100%">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td height="25"></td>
+			</tr>
+			<tr>
+				<td class="table01_con">
+					<table cellpadding="3" cellspacing="1" width="100%" align="center" bgcolor="#E6E6E6">
+						<tr>
+							<td bgcolor="#F7F7F7" class="table01_con" align="center">은행</td>
+							<td class="table01_con" bgcolor="#F7F7F7" align="center" width="50%">계좌번호</td>
+							<td class="table01_con" bgcolor="#F7F7F7" align="center">선택</td>
+						</tr>
+<?
+if($gbn == 1){
+	$sql = "SELECT * FROM tblbankinfo WHERE id='".$_ShopInfo->getMemid()."' ORDER BY bank_name ASC";
+	$result=mysql_query($sql,get_db_conn());
+	while($row=mysql_fetch_array($result)) {
+?>
+						<tr>
+							<td bgcolor="white" class="table01_con" align="center"><?=$row['bank_name']?></td>
+							<td class="table01_cona" bgcolor="white" align="center"><?=$row['bank_num']?>(<?=$row['name']?>)</td>
+							<td bgcolor="white" class="table01_con" align="center"><img src="../images/design/btn_select.gif" border="0" onclick="ckSec('<?=$row['uid']?>');" style="cursor;pointer"><a href="javascript:ckDel('<?=$row['uid']?>');">[삭제]</a></td>
+						</tr>
+<?
+	}
+}else if($gbn == 2){
+	$sql = "SELECT * FROM tblcrinfo WHERE id='".$_ShopInfo->getMemid()."' ORDER BY uid DESC LIMIT 5";
+	$result=mysql_query($sql,get_db_conn());
+	while($row=mysql_fetch_array($result)) {
+		//echo "<option value='{$row['name']}|{$row['bank_name']}|{$row['bank_num']}'>{$row['name']} {$row['bank_name']} {$row['bank_num']}</option>";
+?>
+						<tr>
+							<td bgcolor="white" class="table01_con" align="center"><?=$row['bank_name']?></td>
+							<td class="table01_cona" bgcolor="white" align="center"><?=$row['bank_num']?>(<?=$row['name']?>)</td>
+							<td bgcolor="white" class="table01_con" align="center"><img src="../images/design/btn_select.gif" border="0" onclick="ckSec('<?=$row['name']."|".$row['bank_name']."|".$row['bank_num']?>');" style="cursor;pointer"></td>
+						</tr>
+<?
+	}
+}
+?>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" height=15></td>
+			</tr>
+		</table>
+	</td>
+	<td background="../images/design/pop_view_rightbg.gif" width="17" height="100%"></td>
+</tr>
+<tr>
+	<td height="9" width="10"><img src="../images/design/pop_view_bottomleft.gif" width="17" height="16" border="0"></td>
+	<td background="../images/design/pop_view_bottombg.gif" height="9" width="729"></td>
+	<td height="9" width="11"><img src="../images/design/pop_view_bottomright.gif" width="17" height="16" border="0"></td>
+</tr>
+</table>
+</form>
+<iframe src="" width="0" height="0" name="ifrmProcess" id="ifrmProcess"></iframe>

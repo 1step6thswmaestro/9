@@ -1,0 +1,13 @@
+
+ TODO file for CGI:
+
+* Support for multipart/form-data content type (i.e. file-upload support). This
+is going to be ready soon.
+
+[DONE] Write documentation and add some source comments.
+
+[DONE] Makefile and some kind of automatic installation.
+
+* A man page.
+
+* Name change to ECGILib, which stands for Easy CGI Library.

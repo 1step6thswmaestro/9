@@ -1,0 +1,91 @@
+<style>
+td {font-family:µ¸À½;color:333333;font-size:9pt;line-height:14pt;}
+tr {font-family:µ¸À½;color:333333;font-size:9pt;line-height:14pt;}
+body {
+
+	scrollbar-face-color: #dddddd;
+	scrollbar-shadow-color: #aaaaaa;
+	scrollbar-highlight-color: #ffffff;
+	scrollbar-3dlight-color: #dadada;
+	scrollbar-darkshadow-color: #dadada;
+	scrollbar-track-color: #eeeeee;
+	scrollbar-arrow-color: #ffffff;
+	overflow-x:auto;overflow-y:scroll>
+}
+.input {font-size:12px;BORDER: #DCDCDC 1px solid; HEIGHT: 18px; BACKGROUND-COLOR: #ffffff;padding-top:2pt; padding-bottom:1pt; height:19px}
+.textarea{padding-left:4pt;line-height:17px;border:solid 1;border-color:#DCDCDC;font-family:µ¸À½;font-size:9pt;color:333333;background-color:transparent;width:100%}
+
+
+select {font-family:µ¸À½;color:333333;font-size:9pt}
+A:link    {color:333333;text-decoration:none;}
+A:visited {color:333333;text-decoration:none;}
+A:active  {color:333333;text-decoration:none;}
+A:hover  {color:#FF6600;text-decoration:none;}
+.verdana { FONT-SIZE: 9px; FONT-FAMILY: "verdana", "arial"; letter-spacing: -1px }
+
+.button {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #cacaca;
+	border-right-color: #cacaca;
+	border-bottom-color: #cacaca;
+	border-left-color: #cacaca;
+	border-color:#cacaca;
+	height:20px;
+	color:#404040;
+	background-color:#ffffff;
+	cursor:hand;
+	font-family:µ¸¿ò;
+	font-size:9pt;
+	line-height:12pt;
+
+}
+
+.input_hide {
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-top-color: #FFFFFF;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #FFFFFF;
+	border-left-color: #FFFFFF;
+	border-color:#FFFFFF;
+	height:17px;
+
+}
+
+/* º»¹®¾È³»¸àÆ® */
+.notice_gray{color:#989A9F;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+.notice_gray a:link{color:#989A9F;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;border-bottom-color:#FD4100; border-bottom-style:dotted;border-bottom-width:1;}
+.notice_gray a:hover{color:#989A9F;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+.notice_gray a:visited{color:#989A9F;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+
+
+.notice_blue{color:#2A97A7;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+.notice_blue a:link{color:#2A97A7;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;border-bottom-color:#FD4100; border-bottom-style:dotted;border-bottom-width:1;}
+.notice_blue a:hover{color:#2A97A7;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+.notice_blue a:visited{color:#2A97A7;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+
+.font_gray{color:#7E7E7E;font-family:"µ¸¿ò";font-size:12px;letter-spacing:-0.5pt;line-height:19px;}
+.font_gray a:link{color:#7E7E7E;font-family:"µ¸¿ò";font-size:12px;letter-spacing:-0.5pt;line-height:19px;border-bottom-color:#FD4100; border-bottom-style:dotted;border-bottom-width:1;}
+.font_gray a:hover{color:#7E7E7E;font-family:"µ¸¿ò";font-size:12px;letter-spacing:-0.5pt;line-height:19px;}
+.font_gray a:visited{color:#7E7E7E;font-family:"µ¸¿ò";font-size:12px;letter-spacing:-0.5pt;line-height:19px;}
+
+.font_gray1{color:#7E7E7E;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+.font_gray1 a:link{color:#7E7E7E;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px}
+.font_gray1 a:hover{color:#7E7E7E;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;border-bottom-color:#FD4100; border-bottom-style:dotted;border-bottom-width:1;}
+.font_gray1 a:visited{color:#7E7E7E;font-family:"µ¸¿ò";font-size:11px;letter-spacing:-0.5pt;line-height:19px;}
+
+
+</style>

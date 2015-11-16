@@ -1,0 +1,279 @@
+
+ MANUAL
+
+ CGI -- C CGI Library -- User Manual
+
+ Copyright (c) 2000 Todor Prokopov
+ Distributed under GPL, see COPYING for details
+
+ Todor Prokopov     <koprok@newmail.net>
+
+ $Id$
+
+ $Log$
+
+ 1. What is C CGI Library?
+ 2. Requirements and installation
+ 3. Creating a CGI
+ 4. Function descriptions
+ 5. The test program
+ 6. Contact information
+
+ 1. What is C CGI Library?
+
+ It's a simple yet complete set of functions you need to create CGI modules.
+If you believe it's not that simple or ain't complete, please let us know and
+we'll fix it.
+
+ 2. Requirements and installation
+
+ It should compile and run without problems on any POSIX compliant system.
+ For more information see the Requirements and Installation sections in README
+and also see the INSTALL file.
+
+ 3. Creating a CGI
+
+ To create a CGI program in C, using this library, simply follow these steps:
+
+ 3.1. Include the CGI header file in your program:
+
+    #include <cgi.h>
+
+ 3.2. Call the initialization function and check for errors occured:
+
+    if (!cgi_init())
+    {
+      /* Some error occured - handle it. */
+      ...
+    }
+
+ The `cgi_init' function returns 1 if there aren't any errors at all and 0 if
+an error occured, while processing the data passed to the program. You can use
+the `cgi_strerror' function to get an error message, describing the error
+occured. The actual error code is in a variable, called `cgi_errno'. Use this
+mechanism just like you use the libc `errno' variable and `strerror' function:
+
+    if (!cgi_init())
+    {
+      printf("cgi_init: %s\n", strerror(cgi_errno));
+      exit(1);
+    }
+
+ WARNING: You may not call `cgi_init' more than once. Calling it a second time
+gives an error. There is no sense trying to recover after an error from
+`cgi_init', so your program should give up and exit with some kind of an
+error message.
+
+ NOTE: Remember, you should have send a "Content-type: ...\n\n" line to the
+server, before trying to write anything else on stdout, including error
+messages:
+
+    printf("Content-Type: text/html\n\n");
+
+ 3.3. Use the `cgi_param' function to grab the HTML form entry value, with a
+given name, for example:
+
+    char *color;
+    ...
+    color = cgi_param("color");
+
+ This function returns NULL, if there isn't an entry with the given name,
+passed to the program, so after calling it, you should check that:
+
+    if (color == NULL)
+    {
+      /* There isn't an entry called "color", passed to us. */
+      ...
+    }
+
+ In instances of multiple values, associated with the same entry name, repeated
+use of `cgi_param' with the same entry name cycles through all it's values,
+associated with the given name. The return of a null pointer indicates the end
+of the cycle. If you need to retrieve the first value instance again, you need
+to reset the function. Do this by passing a null pointer, as a parameter to it.
+For example, let's assume we have the following entries:
+
+    fruit=apple
+    fruit=pear
+
+ The first call `cgi_param("fruit")' returns "apple", the second returns
+"pear", the third, fourth and so on returns NULL. If you wish to retrieve the
+first value ("apple") again, first reset the function by calling
+`cgi_param(NULL)', and then the call `cgi_param("fruit")' returns "apple"
+again.
+ The `cgi_param' function is reset also by invoking it with another entry
+name, not the same as that, you have asked the last time. For example if you
+have the following entries, passed:
+
+    fruit=apple
+    fruit=pear
+    vegetables=potato
+
+ Invoking `cgi_param("fruit")' for the first time gives "apple", the second
+call `cgi_param("vegetables")' returns "potato" and if you call it again like
+this `cgi_param("fruit")', you get "apple" again, not "pear"! If you call
+`cgi_param("fruit")' one more time, then you get "pear".
+
+ NOTE: You should not modify the string returned by `cgi_param'. If you have
+to modify it, first copy it to another piece of memory, using `strdup' or
+something similar.
+
+ 3.4. When you're done fetching the name/value pairs, free up any memory
+allocated by `cgi_init', call `cgi_done()':
+
+    cgi_done();
+
+ 4. Function descriptions
+
+ Function: int cgi_init(void)
+ ----------------------------
+
+ The `cgi_init' function initializes the library. It receives the form data.
+It checks some environment variables, which should be set by the web server
+before the CGI program is called, determines how to get the data and then grabs
+it and creates an internal list of name/value pairs.
+
+ The normal return value from `cgi_init' is 1. If an error occured, a value of
+0 is returned instead and the global variable `cgi_errno' is set to a nonzero
+error code. See the error code descriptions below.
+
+ `cgi_init' may not be called more than once, because if it fails, that means
+the data send by the web server is unrecoverable corrupt, or there is missing
+essential information to determine the data type at all. it checks for repeated
+initialization attempts and returns with an error, the second time you try to
+call it.
+
+ Variable: int cgi_errno
+ -----------------------
+
+ The `cgi_errno' global variable contains the error code number, if any of the
+functions in the library fails. The initial value of `cgi_errno' at program
+startup is zero. Currently only `cgi_init' changes it.
+
+ Error codes
+ -----------
+
+ CGIERR_SUCCESS
+  No error. The value of CGIERR_SUCCESS is zero.
+
+ CGIERR_UNKNOWN_REQUEST_METHOD
+  This error occurs, if the REQUEST_METHOD environment variable is not set
+  (but it should be always set by the web server), or if it contains an
+  unrecognized value. Currently both GET and POST request methods are
+  supported.
+
+ CGIERR_NULL_QUERY_STRING
+  Request method is GET, but the QUERY_STRING environment variable is not set.
+  It should be always set by the web server.
+
+ CGIERR_MEMORY_ALLOCATION
+  An error occured trying to allocate memory in a call to `malloc' or similar
+  function. Also in this case the C library `errno' global variable should be
+  set to ENOMEM by `malloc'.
+
+ CGIERR_REPEATED_INIT_ATTEMPT
+  Trying to call `cgi_init' more than once. See the description of `cgi_init'
+  and the warning in section 3.2 for more information.
+
+ CGIERR_UNKNOWN_CONTENT_TYPE
+  If the request method is POST, an environment variable called CONTENT_TYPE
+  should be set by the web server. This error occurs if it contains an
+  unrecognized value, or is not set at all. The currently recognized content
+  types are `application/x-www-form-urlencoded' and `multipart/form-data'.
+
+ CGIERR_UNSUPPORTED_CONTENT_TYPE
+  This error code is returned if the content type is `multipart/form-data'.
+  Currently the library only recognizes it, but does not provide support.
+  NOTE: The next version of the library will provide full support for
+  `multipart/form-data' content type.
+
+  CGIERR_INVALID_CONTENT_LENGTH
+   This error occurs if the CONTENT_LENGTH environment variable contains an
+   invalid unsigned integer number, or is not set at all. In case of POST
+   request method, the CONTENT_LENGTH environment variable should contain the
+   length of the data, send by the web server to the program, i.e the number of
+   bytes, waiting to be read from stdin. Also the value of the C library global
+   variable `errno' may be set to ERANGE by this function.
+
+  CGIERR_INPUT_BLOCK_READING
+   An error occured, trying to read the data, passed to the CGI program by the
+   web server in case of POST request method. Also the C library variable
+   `errno' should contain the actual C library system error code, originated
+   from the call to `read' syscall.
+
+  CGIERR_INVALID_URLENCODED_DATA
+   In case of `application/x-www-form-urlencoded' content type, the data passed
+   to the CGI program is coded using a common algoritm, called URL-encoding.
+   There is an error trying to decode the data. Probably the data is incorrect
+   or corrupt in some fashion.
+
+  CGI_NUM_ERRS
+   This is actually not an error number and it's never set by any of the
+   library functions. This is just the total number of error codes.
+
+ Function: const char *cgi_strerror(int errnum)
+ ----------------------------------------------
+
+ The `cgi_strerror' function maps the error code specified by the errnum
+argument to a descriptive error message string. The return value is a pointer
+to this string. The value errnum normally comes from the variable `cgi_errno'.
+
+ Function: const char *cgi_param(const char *name)
+ -------------------------------------------------
+
+ The `cgi_strerror' function looks up a name/value pair named by `name' (the
+name of some form field) and returns the value as a character string pointer.
+It returns NULL, if there isn't an entry with the given name, passed to the CGI
+program.
+
+ In instances of multiple values, associated with the same entry name, repeated
+use of `cgi_param' with the same entry name cycles through all it's values,
+associated with the given name. The return of a null pointer indicates the end
+of the cycle. If you need to retrieve the first value instance again, you need
+to reset the function, by passing a null pointer, as a parameter to it, or
+invoking it with another entry name.
+
+ Also see section 3.3 for more information and examples.
+
+ This function also calls `cgi_init' if it's not previously called and returns
+NULL if an error occurs in the call to `cgi_init'. But you should always call
+`cgi_init' manually, prior to calling `cgi_param' for the first time, because
+`cgi_init' provides better error handling possibilities.
+
+ NOTE: You should not modify the string returned by `cgi_param'.
+
+ Function: void cgi_done(void)
+ -----------------------------
+
+ The `cgi_done' function frees up any memory allocated by `cgi_init'. it
+destroys the internal list of name/value pairs and you should no more call any
+other library functions.
+
+ 5. The test program
+
+ There is a small example test CGI program and an HTML form associated with it.
+They are located in the `test' subdirectory. If you want to try it, you should
+copy the `cgitest' executable anywhere in your cgi-bin directory and point the
+`ACTION=' attribute of the `FORM' tag in `cgitest.html' to it. Then open
+`cgitest.html' with your browser.
+ You should see an HTML form with different types of inputs in it. Fill the
+form, press the `Submit' button and the CGI test program parses and displays
+the data you entered.
+ To see how this is done, simply look at the source code: `cgitest.c'.
+
+ 6. Contact information
+
+ I hope this library will come in useful. If you have any questions or comments
+or good ideas about the library enhancement or... hm... bug reports, please
+send it to me:
+
+ Todor Prokopov     <koprok@newmail.net>
+
+ If you have any questions or comments about the autoconf installation, please
+direct them to:
+
+ "Edward V. POPKOV" <evpopkov@carry.neonet.lv>
+
+ 10x for using this CGI library and take care! :^)
+
+ End of MANUAL

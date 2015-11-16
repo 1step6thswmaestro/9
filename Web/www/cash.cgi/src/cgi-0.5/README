@@ -1,0 +1,84 @@
+
+ README
+
+ CGI -- C CGI Library -- Instructions
+
+ Copyright (c) 2000 Todor Prokopov
+ Copyright (c) 2000 Edward V. POPKOV
+ Distributed under GPL, see COPYING for details
+
+ Todor Prokopov     <koprok@newmail.net>
+ "Edward V. POPKOV" <evpopkov@carry.neonet.lv>
+
+ $Id$
+
+ $Log$
+
+ 1. What is C CGI Library?
+ 2. Requirements
+ 3. Installation
+ 4. Documentation
+ 5. Distribution
+ 6. Acknowledgements
+
+ 1. What is C CGI Library?
+
+ It's a simple yet complete set of functions you need to create CGI modules.
+If you believe it's not that simple or ain't complete, please let us know and
+we'll fix it.
+
+ 2. Requirements
+
+ At present stage development occurs on the fowllowing systems:
+
+ - PC with Slackware Linux 7.0, kernel 2.2.14, glibc 2.1.2, gcc/egcs 1.1.2,
+Apache 1.3.9, bash 2.03.0(1), Netscape Navigator 4.7, Lynx 2.8.2rel.1
+
+ - PC with Linux 2.0.38, libc5, gcc 2.7.2.3, Apache 1.3.1, bash 1.14.7(1), w3m,
+Netscape Navigator
+
+ All the code is written with portability in mind. If something doesn't work
+for you as expected, please let us know and send us stdout and stderr of the
+configure script and make. We'll do all possible to fix it.
+
+ 3. Installation
+
+ C CGI Library is shipped together with configure script and Makefile to adhere
+GNU software distribution guidelines. Your normal way is
+
+# ./configure
+# make
+# make -n install
+
+ Check dirs and permissions, then
+
+# make install
+
+ For configure script and Makefile to work you need to have cp, rm, sed,
+gcc, ld, ar and bash available.
+ Read the bottom part of INSTALL to see how to tell configure about your
+system.
+ Anyway it should compile and run without problems on any POSIX compliant
+system.
+
+ 4. Documentation
+
+ See the file MANUAL for a full function descriptions and advices on creating
+CGI programs using this library.
+
+ 5. Distribution
+
+ C CGI Library is currently GPL'ed, see COPYING for details.
+
+ 6. Acknowledgements
+
+ Programs used: 
+
+  Linux, bash, Apache, w3m, Netscape, vim, autoconf, make, sed, gcc, ld, ar,
+mcedit
+
+ Thanks to developers of these and numerous other free and open source tools.
+
+ 10x and good luck creating great CGI programs! :^)
+
+End of README

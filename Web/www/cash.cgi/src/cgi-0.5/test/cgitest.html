@@ -1,0 +1,67 @@
+<!-- 
+ cgitest.html
+
+ CGI -- C CGI Library -- Test -- Sample HTML Form
+
+ Copyright (c) 2000 Todor Prokopov
+ Distributed under GPL, see COPYING for details
+
+ Todor Prokopov     <koprok@newmail.net>
+ -->
+
+<HTML>
+<HEAD>
+<TITLE>CGI Test</TITLE>
+</HEAD>
+<BODY>
+<H1>CGI Test Form</H1>
+<HR>
+
+<FORM METHOD="POST" ACTION="http://localhost/cgi-bin/cgitest"
+      ENCTYPE="application/x-www-form-urlencoded">
+
+<P>Name: <INPUT TYPE="TEXT" NAME="name"></P>
+
+<P>Age:
+<SELECT NAME="age">
+<OPTION>Under 18</OPTION>
+<OPTION SELECTED>19-25</OPTION>
+<OPTION>26-35</OPTION>
+<OPTION>36-50</OPTION>
+<OPTION>Over 50</OPTION>
+</SELECT>
+</P>
+
+<P>Sex:<BR>
+<INPUT TYPE="RADIO" NAME="sex" VALUE="male" CHECKED> Male<BR>
+<INPUT TYPE="RADIO" NAME="sex" VALUE="female"> Female
+</P>
+
+<P>Choose one or more Operating Systems:<BR>
+<SELECT NAME="os" MULTIPLE>
+<OPTION>Linux</OPTION>
+<OPTION>FreeBSD</OPTION>
+<OPTION>Windows</OPTION>
+<OPTION>MacOS</OPTION>
+<OPTION>OS/2</OPTION>
+</SELECT>
+</P>
+
+<P><INPUT TYPE="CHECKBOX" NAME="brother" VALUE="yes">
+Check this if you have a brother or sister
+</P>
+
+<P>Comments:<BR>
+<TEXTAREA NAME="comments" ROWS="4" COLS="40" WRAP></TEXTAREA>
+</P>
+
+<P>
+<INPUT TYPE="SUBMIT" VALUE="Submit">
+<INPUT TYPE="RESET" VALUE="Reset">
+</P>
+
+</FORM>
+
+<HR>
+</BODY>
+</HTML>
