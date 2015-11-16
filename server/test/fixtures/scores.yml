@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  action_name: MyString
+  reaction_id: 
+  score: 
+
+two:
+  action_name: MyString
+  reaction_id: 
+  score: 
