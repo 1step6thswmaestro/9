@@ -6,7 +6,7 @@ class ReactionsController < ApplicationController
     action_count = {}
     actions = UserAction.where(tracking_id: params[:tracking_id])
     # 너무 적으면 생성하지 않음
-    if actions.size < 5
+    if actions.size < 20
       render json: { reaction: 'none' }
       return
     end

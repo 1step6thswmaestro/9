@@ -1,19 +1,18 @@
 class AnalysisJob < ActiveJob::Base
 
   def perform
-    tracking_ids = UserAction.select(:tracking_id).uniq
-    tracking_ids.each do |t|
-      action_count = {}
-      actions = UserAction.where(tracking_id: t.tracking_id)
-      for action in actions
-        if action_count.has_key? action.name
-          action_count[action.name] += 1
-        else
-          action_count[action.name] = 1
-        end
+    purchase_table = {}
+    user_ids = Purchase.select(:user_id).uniq
+    user_ids.each do |u|
+      purchase_table[u.user_id] = []
+      purchases = Purchase.where(user_id: u.user_id)
+      purchases.each do |p|
+        purchase_table[u].push(p.product_id)
       end
-      p action_count
     end
+    recommand_table = {}
+    
+    p purchase_table
     #AnalysisJob.delay_for(1.day).perform_later
   end
 end
